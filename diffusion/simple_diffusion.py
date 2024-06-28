@@ -190,9 +190,11 @@ class simpleDiffusion(nn.Module):
                 logsnr_t = self.logsnr_schedule_cosine_shifted(u_t)
                 logsnr_s = self.logsnr_schedule_cosine_shifted(u_s)
 
+            logsnr_t = logsnr_t.to(x.device)
+            logsnr_s = logsnr_s.to(x.device)
+
             pred = self.model(z_t, logsnr_t)
             mu, variance = self.ddpm_sampler_step(z_t, pred, torch.tensor(logsnr_t), torch.tensor(logsnr_s))
-
             z_t = mu + torch.randn_like(mu) * torch.sqrt(variance)
 
         # Final step
@@ -202,6 +204,9 @@ class simpleDiffusion(nn.Module):
         elif self.schedule == 'shifted_cosine':
             logsnr_1 = self.logsnr_schedule_cosine_shifted(1/self.steps)
             logsnr_0 = self.logsnr_schedule_cosine_shifted(0)
+
+        logsnr_1 = logsnr_1.to(x.device)
+        logsnr_0 = logsnr_0.to(x.device)
 
         pred = self.model(z_t, logsnr_1)
         x_pred, _ = self.ddpm_sampler_step(z_t, pred, torch.tensor(logsnr_1), torch.tensor(logsnr_0))
@@ -324,7 +329,6 @@ class simpleDiffusion(nn.Module):
                 if epoch % config.save_image_epochs == 0 or epoch == config.num_epochs - 1:
                     sample = self.sample(x[0].unsqueeze(0))
                     sample = sample.detach().cpu().numpy().transpose(0, 2, 3, 1)
-                    print(max(sample[0].flatten()), min(sample[0].flatten()))
                     image_path = os.path.join(config.output_dir, "images", f"sample_{epoch}.png")
                     plt.imsave(image_path, sample[0])
         

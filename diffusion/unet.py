@@ -700,7 +700,7 @@ class simpleUNet(nn.Module):
         num_res_blocks          = [2,2,2,2],    # Number of residual blocks per resolution.
         attention_resolutions   = [32,16,8],    # List of resolutions with self-attention.
         dropout                 = 0.10,         # List of resolutions with self-attention.
-        dropout_from            = 3,            # Start applying dropout from this downsample onwards.
+        dropout_from            = 16,            # Start applying dropout from this downsample onwards.
 
         downsample              = 4,            # Downsample factor for the initial convolution layer.
 

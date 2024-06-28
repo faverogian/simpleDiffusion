@@ -1,0 +1,4 @@
+# Ignore virtual environment files
+venv/
+venv38/
+*.pyc
