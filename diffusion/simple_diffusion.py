@@ -14,6 +14,8 @@ import torch.nn as nn
 from torch.special import expm1
 import math
 from accelerate import Accelerator
+from huggingface_hub import create_repo, upload_folder
+from pathlib import Path
 import os
 from tqdm import tqdm
 from ema_pytorch import EMA
@@ -277,7 +279,11 @@ class simpleDiffusion(nn.Module):
         if accelerator.is_main_process:
             if config.output_dir is not None:
                 os.makedirs(config.output_dir, exist_ok=True)
-            accelerator.init_trackers("train_example")
+            if config.push_to_hub:
+                repo_id = create_repo(
+                    repo_id=config.hub_model_id or Path(config.output_dir).name, exist_ok=True
+                ).repo_id
+                print(repo_id)
 
         model, optimizer, train_dataloader, lr_scheduler = accelerator.prepare( 
             self.model, optimizer, train_dataloader, lr_scheduler
@@ -332,5 +338,11 @@ class simpleDiffusion(nn.Module):
                     image_path = os.path.join(config.output_dir, "images", f"sample_{epoch}.png")
                     plt.imsave(image_path, sample[0])
         
-        # Save the EMA model to disk
-        torch.save(ema.ema_model.module.state_dict(), 'ema_model.pth')
+                # Save the EMA model to HuggingFace Hub
+                if config.push_to_hub and epoch == config.num_epochs - 1:
+                    upload_folder(
+                        repo_id=repo_id,
+                        folder_path=config.output_dir,
+                        commit_message="EMA model",
+                    )
+                    torch.save(ema.ema_model.module.state_dict(), 'ema_model.pth')
