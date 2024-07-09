@@ -345,4 +345,5 @@ class simpleDiffusion(nn.Module):
                         folder_path=config.output_dir,
                         commit_message="EMA model",
                     )
+                    self.model.push_to_hub(config.hub_model_id, variant="fp16")
                     torch.save(ema.ema_model.module.state_dict(), 'ema_model.pth')
