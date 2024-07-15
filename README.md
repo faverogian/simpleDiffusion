@@ -5,6 +5,8 @@
 [Emiel Hoogeboom](https://arxiv.org/search/cs?searchtype=author&query=Hoogeboom,+E), [Jonathan Heek](https://arxiv.org/search/cs?searchtype=author&query=Heek,+J), [Tim Salimans](https://arxiv.org/search/cs?searchtype=author&query=Salimans,+T)
 https://arxiv.org/abs/2301.11093
 
+![alt text](https://github.com/faverogian/simpleDiffusion/blob/main/assets/simpleDiffusion.png?raw=true)
+
 ### Requirements
 * All testing and development was conducted on 4x 16GB NVIDIA V100 GPUs
 * 64-bit Python 3.8 and PyTorch 2.1 (or later). See  [https://pytorch.org](https://pytorch.org/)  for PyTorch install instructions.
