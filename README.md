@@ -118,6 +118,9 @@ Multiple versions of the U-Net architecture are available (UNet2DModel, ADM), wi
 The `simpleDiffusion` class is equipped with HuggingFace's [Accelerator](https://huggingface.co/docs/accelerate/en/index) wrapper for distributed training. Multi-GPU training is easily done via:
 `accelerate launch --multi-gpu train.py`
 
+### Sample Results
+A pre-trained model and results can be seen at the HuggingFace [model card](https://huggingface.co/faverogian/Smithsonian128UNet) for this project.
+
 ### Citations
 
     @inproceedings{Hoogeboom2023simpleDE,
