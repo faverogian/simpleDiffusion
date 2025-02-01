@@ -1,0 +1,8 @@
+# Ignore virtual environment and cache files
+venv*/
+*.pyc
+
+# Ignore images, checkpoints
+*.png
+*.jpg
+*checkpoints/

@@ -1,0 +1,65 @@
+UNet2D:
+    unet = UNet2D(
+        sample_size=config.image_size,  # the target image resolution
+        in_channels=3,  # the number of input channels, 3 for RGB images
+        out_channels=3,  # the number of output channels
+        layers_per_block=2,  # how many ResNet layers to use per UNet block
+        block_out_channels=(128, 128, 256, 256, 512, 512),  # the number of output channels for each UNet block
+        down_block_types=(
+            "DownBlock2D",
+            "DownBlock2D",
+            "DownBlock2D",
+            "DownBlock2D",
+            "AttnDownBlock2D",
+            "DownBlock2D",
+        ),
+        up_block_types=(
+            "UpBlock2D",
+            "AttnUpBlock2D",
+            "UpBlock2D",
+            "UpBlock2D",
+            "UpBlock2D",
+            "UpBlock2D",
+        ),
+    )
+    
+simpleUNet:
+    unet = simpleUNet(
+        img_resolution=config.image_size,
+        in_channels=3,
+        out_channels=3,
+        model_channels=192,
+        channel_mult=(1, 1, 2, 2, 4, 4),
+        num_res_blocks=(2, 2, 2, 2, 2, 2),
+        attention_resolutions=(16, 8),
+        dropout=0.1,
+        dropout_from=16,
+        downsample=1,
+        fp16=True
+    )
+
+UNet2DCondition:
+    unet = UNetCondition2D(
+        sample_size=config.image_size,  # the target image resolution
+        in_channels=3,  # the number of input channels, 3 for RGB images
+        out_channels=3,  # the number of output channels
+        layers_per_block=2,  # how many ResNet layers to use per UNet block
+        block_out_channels=(128, 128, 256, 256, 512, 512),  # the number of output channels for each UNet block
+        down_block_types=(
+            "DownBlock2D",
+            "DownBlock2D",
+            "DownBlock2D",
+            "DownBlock2D",
+            "AttnDownBlock2D",
+            "DownBlock2D",
+        ),
+        up_block_types=(
+            "UpBlock2D",
+            "AttnUpBlock2D",
+            "UpBlock2D",
+            "UpBlock2D",
+            "UpBlock2D",
+            "UpBlock2D",
+        ),
+        mid_block_type="UNetMidBlock2D",
+    )
