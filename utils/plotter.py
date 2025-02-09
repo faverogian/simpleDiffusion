@@ -27,7 +27,7 @@ def plot_rgb(
         for j in range(1):
 
             sample_item = sample[j] * 2
-            sample_item = wavelet_enc_2(sample_item)
+            sample_item = wavelet_enc_2(sample_item) * 0.5 + 0.5
 
             pred = sample_item.cpu().detach().numpy().transpose(1, 2, 0)
 

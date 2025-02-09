@@ -27,11 +27,11 @@ class TrainingConfig:
 
     # Experiment parameters
     resume = False # whether to resume training from a checkpoint
-    num_epochs = 200 # the number of training epochs
+    num_epochs = 750 # the number of training epochs
     save_image_epochs = 50 # how often to save generated images
     evaluation_batches = 1 # the number of batches to use for evaluation
     mixed_precision = "fp16"  # `no` for float32, `fp16` for automatic mixed precision
-    experiment_path = "/home/mila/g/gian.favero/simpleDiffusion/ddpm-butterflies-128" # codebase root directory
+    experiment_path = "/home/mila/g/gian.favero/simpleDiffusion/ddpm-butterflies-wavelet" # codebase root directory
     
     # Model parameters
     image_size = 128  # the generated image resolution
@@ -85,9 +85,10 @@ def main():
             sample_size=config.image_size,  # the target image resolution
             in_channels=12,  # the number of input channels, 3 for RGB images
             out_channels=12,  # the number of output channels
-            layers_per_block=(1,2,8,2),  # how many ResNet layers to use per UNet block
-            block_out_channels=(128,256,512,768),  # the number of output channels for each UNet block
+            layers_per_block=(1,2,2,8,2),  # how many ResNet layers to use per UNet block
+            block_out_channels=(128,128,256,512,768),  # the number of output channels for each UNet block
             down_block_types=(
+                "DownBlock2D",
                 "DownBlock2D",
                 "DownBlock2D",
                 "AttnDownBlock2D",
@@ -96,6 +97,7 @@ def main():
             up_block_types=(
                 "AttnUpBlock2D",
                 "AttnUpBlock2D",
+                "UpBlock2D",
                 "UpBlock2D",
                 "UpBlock2D",
             ),
